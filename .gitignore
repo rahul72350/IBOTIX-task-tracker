@@ -1,0 +1,15 @@
+node_modules/
+venv/
+__pycache__/
+*.pyc
+dist/
+**/uploads/*
+!**/uploads/.gitkeep
+.DS_Store
+
+# Real secrets — never commit these. Only the .env.example templates
+# (which hold no real values) are meant to be tracked.
+.env
+.env.local
+.env.production
+.env.*.local
