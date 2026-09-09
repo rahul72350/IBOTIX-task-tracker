@@ -24,7 +24,7 @@ export default function DailyTaskUpdate() {
   const [taskStatuses, setTaskStatuses] = useState([])
   const [todaysEntries, setTodaysEntries] = useState([])
 
-  const [form, setForm] = useState({ date: todayStr(), project_id: '', process_id: '', status_id: '', remarks: '' })
+  const [form, setForm] = useState({ date: todayStr(), project_id: '', process_id: '', status_id: '', duration_hours: '', remarks: '' })
   const [attachFile, setAttachFile] = useState(null)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -91,7 +91,7 @@ export default function DailyTaskUpdate() {
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
-    if (!form.project_id || !form.process_id || !form.status_id) {
+    if (!form.project_id || !form.process_id || !form.status_id || !form.duration_hours) {
       setError('Please fill in all required fields.')
       return
     }
@@ -106,6 +106,7 @@ export default function DailyTaskUpdate() {
         process_id: Number(form.process_id),
         entry_date: form.date,
         status_id: Number(form.status_id),
+        duration_hours: Number(form.duration_hours),
         remarks: form.remarks || null,
       })
 
@@ -122,7 +123,7 @@ export default function DailyTaskUpdate() {
         }
       }
 
-      setForm({ date: todayStr(), project_id: '', process_id: '', status_id: '', remarks: '' })
+      setForm({ date: todayStr(), project_id: '', process_id: '', status_id: '', duration_hours: '', remarks: '' })
       setAttachFile(null)
       setShowToast(true)
       setTimeout(() => setShowToast(false), 3000)
@@ -193,6 +194,12 @@ export default function DailyTaskUpdate() {
                 <option value="">Select...</option>
                 {taskStatuses.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
               </select>
+            </div>
+
+            <div className="field">
+              <label>Hours</label>
+              <input type="number" required min="0.5" step="0.5" placeholder="e.g. 2"
+                value={form.duration_hours} onChange={e => setForm({ ...form, duration_hours: e.target.value })} />
             </div>
 
             <div className="field">
